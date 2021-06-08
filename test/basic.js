@@ -5,6 +5,8 @@ const ram = require('random-access-memory')
 const create = require('./helpers/create')
 const Replicator = require('./helpers/replicator')
 
+const Hyperdrive = require('..')
+
 tape('close event', function (t) {
   t.plan(1)
 
@@ -313,6 +315,18 @@ tape('copy', function (t) {
           })
         })
       })
+    })
+  })
+})
+
+tape('can instantiate both with "new" and the legacy constructor function', function (t) {
+  var drive1 = Hyperdrive(ram)
+  var drive2 = new Hyperdrive(ram)
+  drive1.ready(err => {
+    t.error(err, 'no error')
+    drive2.ready(err => {
+      t.error(err, 'no error')
+      t.end()
     })
   })
 })
